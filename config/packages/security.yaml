@@ -14,24 +14,26 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        api:
-            pattern: ^/api
-            guard:
-                authenticators:
-                    - App\Security\JwtAuthenticator
-        main:
+        auth:
+            pattern: ^/auth
             anonymous: true
             lazy: true
             provider: app_user_provider
-            form_login: 
-                default_target_path: login_success
+            # form_login: 
+            #     default_target_path: login_success
             guard:
                 authenticators:
                     - App\Security\CustomAuthenticator
-            logout:
-                path: app_logout
+            # logout:
+            #     path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
+        api:
+            # pattern: ^/api
+            guard:
+                authenticators:
+                    - App\Security\JwtAuthenticator
+        
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
