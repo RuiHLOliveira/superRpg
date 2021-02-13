@@ -39,6 +39,7 @@ class GamesController extends AbstractController
         $em->flush();
         $game->getId();
 
-        return new JsonResponse(compact('game'));
+        $message = 'Game created!';
+        return new JsonResponse(compact(['message','game']));
     }
 }
