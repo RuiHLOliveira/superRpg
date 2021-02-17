@@ -35,6 +35,18 @@ class Character implements JsonSerializable
      */
     private $hp;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="characters")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="characters")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $game;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +72,30 @@ class Character implements JsonSerializable
     public function setHp(string $hp): self
     {
         $this->hp = $hp;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getGame(): ?Game
+    {
+        return $this->game;
+    }
+
+    public function setGame(?Game $game): self
+    {
+        $this->game = $game;
 
         return $this;
     }

@@ -51,9 +51,15 @@ class User implements UserInterface, JsonSerializable
      */
     private $games;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Character::class, mappedBy="User")
+     */
+    private $characters;
+
     public function __construct()
     {
         $this->games = new ArrayCollection();
+        $this->characters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -158,6 +164,36 @@ class User implements UserInterface, JsonSerializable
             // set the owning side to null (unless already changed)
             if ($game->getUser() === $this) {
                 $game->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Character[]
+     */
+    public function getCharacters(): Collection
+    {
+        return $this->characters;
+    }
+
+    public function addCharacter(Character $character): self
+    {
+        if (!$this->characters->contains($character)) {
+            $this->characters[] = $character;
+            $character->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCharacter(Character $character): self
+    {
+        if ($this->characters->removeElement($character)) {
+            // set the owning side to null (unless already changed)
+            if ($character->getUser() === $this) {
+                $character->setUser(null);
             }
         }
 
