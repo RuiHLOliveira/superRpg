@@ -16,6 +16,18 @@ class GamesController extends AbstractController
      */
     public function index(): Response
     {
+        $user = $this->getUser();
+        $games = $this->getDoctrine()
+        ->getRepository(Game::class)
+        ->findBy(['user' => $user]);
+        return new JsonResponse(compact('games'));
+    }
+
+    /**
+     * @Route("/gamesToSubscribe", methods={"GET","HEAD"})
+     */
+    public function gamesToSubscribe(): Response
+    {
         $games = $this->getDoctrine()
         ->getRepository(Game::class)
         ->findAll();
